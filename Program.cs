@@ -1,29 +1,48 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using ConsoleApp3.Goods;
+using ConsoleApp3.AllGoods;
 using ConsoleApp3.Taxes;
+try
+{
 
-ShoppingBasket sh1= new ShoppingBasket();
-SalesTaxExemptGoods g1= new SalesTaxExemptGoods ("book",12.49);
-SalesTaxExemptGoods g2 = new SalesTaxLiableGoods("music CD",14.99);
-SalesTaxExemptGoods g3 = new SalesTaxExemptGoods("chocolate bar", 0.85);
-List<SalesTaxExemptGoods> list = new List<SalesTaxExemptGoods> { g1 ,g2,g3};
-sh1.addItemInBasket(list);
-sh1.printReceipt();
+    Console.WriteLine("Enter the number of Goods on the list");
+    int count = int.Parse(Console.ReadLine());
+    List<Goods> ListOfProducts = new List<Goods>();
+    for (int i = 0; i < count; i++)
+    {
+        Console.WriteLine($"Enter {i + 1} Product Name, and please mention imported with the product name if the product was imported.");
+        string name = Console.ReadLine();
+        if (name != null)
+        {
+            Console.WriteLine("Enter Price of Product");
+            double price = double.Parse(Console.ReadLine());
+            Console.WriteLine("If the product is a book, food, or medical product. reply 1 for YES or press any other key for no.");
+            string isExempt = Console.ReadLine();
+            bool isExemptProduct = isExempt.Equals("1");
 
-//input 2
-ShoppingBasket sh2 = new ShoppingBasket();
-SalesTaxExemptGoods g4 = new SalesTaxExemptGoods("imported bar",10.00);
-SalesTaxExemptGoods g5 = new SalesTaxLiableGoods("imported bottle",47.50);
-List<SalesTaxExemptGoods> list2 = new List<SalesTaxExemptGoods> { g4, g5 };
-sh2.addItemInBasket(list2);
-sh2.printReceipt();
+            if (isExemptProduct)
+            {
+                SalesTaxExemptGoods g1 = new SalesTaxExemptGoods(name, price);
+                //g1.IsimportTax = name.ToLower().Contains("imported");
+                ListOfProducts.Add(g1);
+            }
+            else
+            {
+                SalesTaxLiableGoods g1 = new SalesTaxLiableGoods(name, price);
+                ListOfProducts.Add(g1);
+            }
+        }
+    }
+    if (ListOfProducts.Count > 0)
+    {
+        ShoppingBasket sh1 = new ShoppingBasket();
+        sh1.addItemInBasket(ListOfProducts);
+        sh1.printReceipt();
 
-ShoppingBasket sh3 = new ShoppingBasket();
-SalesTaxExemptGoods g6 = new SalesTaxLiableGoods("imported bottle",27.99);
-SalesTaxExemptGoods g7 = new SalesTaxLiableGoods("perfume",18.99);
-SalesTaxExemptGoods g8 = new SalesTaxExemptGoods("headache pills", 9.75);
-SalesTaxExemptGoods g9 = new SalesTaxExemptGoods("imported chocolates",11.25);
-List<SalesTaxExemptGoods> list3 = new List<SalesTaxExemptGoods> { g6, g7, g8,g9 };
-sh3.addItemInBasket(list3);
-sh3.printReceipt();
+    }
+}
+catch (Exception e)
+{
+    Console.WriteLine("Input was not in correct format");
+}
+
 

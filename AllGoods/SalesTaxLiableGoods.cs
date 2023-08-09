@@ -4,27 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp3.Goods
+namespace ConsoleApp3.AllGoods
 {
-    public class SalesTaxExemptGoods
+    public class SalesTaxLiableGoods : Goods
     {
         private string item = "";
         private double price;
-        public bool isexempt = true;
+        public bool isexempt = false;
         private bool isimportTax = false;
 
         public string Item { get { return item; } }
         public double Price { get { return price; } }
-        public bool Isexempt { get { return isexempt; } }
         public bool IsimportTax { get { return isimportTax; } }
+        public bool Isexempt { get { return isexempt; } }
 
-        public SalesTaxExemptGoods(string item, double price)
+        public SalesTaxLiableGoods(string item, double price)
         {
             this.item = item;
             this.price = price;
-            isimportTax = item.Contains("imported") ? true : false;
-
+            if(item.Contains("imported"))
+                isimportTax = true;
         }
-
     }
 }
